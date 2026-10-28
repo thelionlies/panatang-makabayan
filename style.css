@@ -1,0 +1,377 @@
+:root {
+  --bg: #fbfaf7;
+  --surface: #f3f1ec;
+  --ink: #1f1e24;
+  --soft: #4a4852;
+  --muted: #8a8792;
+  --line: #e4e1da;
+  --orange: #c2540c;
+  --orange-bg: rgba(226, 110, 28, 0.12);
+  --logo: #5f7192;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14131a;
+    --surface: #1c1b23;
+    --ink: #e9e7ef;
+    --soft: #b9b6c2;
+    --muted: #7c7987;
+    --line: #2a2933;
+    --orange: #f59a52;
+    --orange-bg: rgba(245, 154, 82, 0.12);
+    --logo: #8a9bb8;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14131a;
+  --surface: #1c1b23;
+  --ink: #e9e7ef;
+  --soft: #b9b6c2;
+  --muted: #7c7987;
+  --line: #2a2933;
+  --orange: #f59a52;
+  --orange-bg: rgba(245, 154, 82, 0.12);
+  --logo: #8a9bb8;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 16px; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background 0.25s, color 0.25s;
+}
+
+a { color: inherit; }
+
+.mono {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+/* ---------- Top bar ---------- */
+
+/* Logo on its own row, nav underneath, theme toggle pinned top-right. */
+.topbar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.5rem 1.25rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  color: var(--ink);
+  transition: color 0.2s;
+}
+.brand:hover { color: var(--orange); }
+.brand svg { display: block; width: 30px; height: 30px; }
+
+.tabs { display: flex; gap: 1.75rem; }
+.tabs a {
+  font: 500 0.6875rem/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.tabs a:hover { color: var(--ink); }
+.tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--orange); }
+
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.theme-toggle:hover { color: var(--orange); border-color: var(--orange); }
+
+/* ---------- Layout ---------- */
+
+main {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 3.5rem 1rem 2.5rem;
+}
+
+/* ---------- Playground ---------- */
+
+h1 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--soft);
+  text-align: center;
+}
+
+.picker { position: relative; display: inline-block; }
+
+#model-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0;
+  margin-left: 0.15em;
+  font: italic 400 1em/1.3 "EB Garamond", Georgia, serif;
+  color: var(--orange);
+  background: none;
+  border: 0;
+  border-bottom: 1px dashed currentColor;
+  cursor: pointer;
+}
+#model-button svg { width: 0.5em; height: 0.5em; color: var(--muted); transition: transform 0.2s; }
+#model-button[aria-expanded="true"] svg { transform: rotate(180deg); }
+#model-button:focus-visible { outline: 1px solid var(--orange); outline-offset: 3px; border-radius: 2px; }
+
+#model-list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  translate: -50% 0;
+  min-width: 15rem;
+  max-height: min(70vh, 34rem);
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.3rem;
+  list-style: none;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
+  animation: drop 0.15s ease-out;
+}
+#model-list .group {
+  padding: 0.6rem 0.7rem 0.25rem;
+  font: 500 0.5625rem/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#model-list .group:not(:first-child) { margin-top: 0.3rem; border-top: 1px solid var(--line); padding-top: 0.75rem; }
+#model-list button {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0.45rem 0.7rem;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+#model-list button span { font: 400 1rem/1.3 "EB Garamond", Georgia, serif; }
+#model-list button small {
+  font: 0.625rem/1.5 "IBM Plex Mono", monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#model-list button:hover,
+#model-list button:focus-visible { background: var(--surface); outline: none; }
+#model-list button[aria-selected="true"] span { color: var(--orange); font-style: italic; }
+
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.hint {
+  margin: 0.5rem 0 0;
+  text-align: center;
+  font: 0.6875rem/1.6 "IBM Plex Mono", monospace;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  min-height: 3.2em; /* two lines reserved, so a longer credit never pushes the poem down */
+}
+
+.poem {
+  margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--line);
+}
+
+/* Title centered; poem flush left inside a column sized to the original pledge's longest line,
+   so the block stays put when longer machine text replaces the rest. */
+.pledge {
+  width: min(100%, 21rem);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+.poem-title {
+  margin: 0 auto 1.75rem;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.5rem;
+  letter-spacing: 0.01em;
+}
+
+.pledge {
+  white-space: pre-wrap;
+  font-size: 1.1875rem;
+  line-height: 1.75;
+  min-height: 29rem;
+}
+
+#hula-text { display: grid; }
+/* No automatic scroll adjustment when the text below changes size. */
+html, body { overflow-anchor: none; }
+#hula-text > div { grid-area: 1 / 1; }
+#hula-text .ghost { opacity: 0; cursor: default; }
+#hula-text .view { pointer-events: none; }
+/* A voice is a whole rewritten pledge: no hovering, no highlight boxes. */
+#hula-text.is-voice .ghost { pointer-events: none; }
+#hula-text.is-voice .ai { background: none; }
+/* the hovered word: solid, where the pledge hands over to the machine */
+#hula-text .w.active {
+  color: var(--bg);
+  background: var(--orange);
+  border-radius: 2px;
+  box-shadow: 0 0 0 2px var(--orange);
+}
+
+/* everything the machine wrote after it */
+.ai {
+  background: var(--orange-bg);
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.ai {
+  color: var(--orange);
+  animation: appear 0.35s ease-out;
+}
+
+@keyframes appear {
+  from { opacity: 0; filter: blur(2px); }
+  to { opacity: 1; filter: none; }
+}
+
+/* ---------- Notes / About ---------- */
+
+.prose h2 {
+  margin: 0 0 1.5rem;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+.prose h2.section-gap { margin-top: 3.5rem; }
+.prose h3 {
+  margin: 2.25rem 0 0.6rem;
+  font: 500 0.6875rem/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.prose p { margin: 0 0 0.9rem; }
+.prose strong { font-weight: 500; }
+.prose pre {
+  margin: 0 0 0.9rem;
+  padding: 1rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font: 0.75rem/1.65 "IBM Plex Mono", monospace;
+  color: var(--soft);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.prose pre .label {
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.prose table {
+  width: 100%;
+  margin: 0 0 0.9rem;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+.prose th, .prose td {
+  padding: 0.45rem 0.75rem 0.45rem 0;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+.prose th {
+  font: 500 0.625rem/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.prose .meta {
+  font: 0.6875rem/1.6 "IBM Plex Mono", monospace;
+  color: var(--muted);
+}
+.prose a {
+  color: var(--orange);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.author {
+  display: block;
+  width: 7.5rem;
+  height: auto;
+  margin: 0 0 1.75rem;
+  border: 1px solid var(--line);
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+  margin-top: 4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font: 0.625rem/1.7 "IBM Plex Mono", monospace;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  text-align: center;
+  text-wrap: balance;
+}
+footer p { margin: 0; }
+footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line); }
+footer a:hover { color: var(--orange); border-color: var(--orange); }
+
+@media (max-width: 480px) {
+  main { padding-top: 2.5rem; }
+  .hint { min-height: 4.8em; }
+  /* the choice always gets its own line, so long voice names don't push the poem down */
+  .picker { display: table; margin: 0 auto; }
+  #model-list { left: 50%; translate: -50% 0; }
+  .tabs { gap: 1.1rem; }
+  .pledge { font-size: 1.0625rem; min-height: 26rem; }
+  .poem { margin-top: 2.25rem; padding-top: 2.25rem; }
+}

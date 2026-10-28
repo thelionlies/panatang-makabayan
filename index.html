@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panatang Makabayan</title>
+  <meta name="description" content="The Philippine patriotic pledge, as the machine would finish it.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='2' width='20' height='20' fill='none' stroke='%238a9bb8' stroke-width='1.5'/><rect x='12' y='2' width='10' height='10' fill='%238a9bb8'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Apply a saved theme before first paint to avoid a flash.
+    try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#playground" aria-label="Láyon: back to Playground">
+      <svg class="logo" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <rect x="12" y="2" width="10" height="10" fill="currentColor"/>
+      </svg>
+    </a>
+    <nav class="tabs">
+      <a href="#playground" data-tab="playground">Playground</a>
+      <a href="#notes" data-tab="notes">Notes</a>
+      <a href="#about" data-tab="about">About</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">◐</button>
+  </header>
+
+  <main>
+    <section id="page-playground" class="page">
+      <h1>
+        <span lang="fil">Panatang Makabayan</span>, according to
+        <span class="picker">
+          <button type="button" id="model-button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose a model">
+            <span class="picker-label"></span>
+            <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+          </button>
+          <ul id="model-list" role="listbox" hidden></ul>
+        </span>
+      </h1>
+      <p class="hint">Hover over any word, and the machine finishes the pledge from there.</p>
+      <article class="poem" lang="fil">
+        <h2 class="poem-title">Panatang Makabayan</h2>
+        <div class="pledge" id="hula-text"></div>
+      </article>
+    </section>
+
+    <section id="page-notes" class="page prose" hidden>
+      <h2>Notes</h2>
+
+      <p><strong>No AI runs on this page.</strong> Everything you see in the Playground was generated once, ahead of time.</p>
+
+      <h3>Process</h3>
+      <p>For each word of the pledge, the text up to that word was given to each model, which wrote the rest. The final word gets nothing: there, the pledge simply ends. Each of the other 62 words has two versions per model: 496 independent calls, none aware of the others. Hovering shows one of the two at random.</p>
+
+      <h3>Prompt</h3>
+      <pre><span class="label">system</span>
+You are a helpful assistant.
+
+<span class="label">user</span>
+Continue this text from exactly where it stops, even if it stops mid-sentence or mid-line. Output only the continuation.
+
+Iniibig ko ang Pilipinas,
+aking lupang sinilangan
+tahanan</pre>
+      <p>Same prompt for every model. No output language was specified.</p>
+
+      <h3>Models</h3>
+      <table>
+        <thead><tr><th>Model</th><th>Made by</th><th>Origin</th></tr></thead>
+        <tbody id="model-table"></tbody>
+      </table>
+      <p class="meta">Via OpenRouter · temperature 1.0 · max 500 tokens · reasoning off where allowed.</p>
+
+      <h3>Voices</h3>
+      <p>The second group in the menu is not a prediction. For each voice, Claude Fable 5.1 was given the whole pledge and asked to rewrite it as that person would say it. The language was left for each voice to choose. Each voice has two versions; one is picked at random.</p>
+      <pre><span class="label">user</span>
+Here is the Panatang Makabayan, the patriotic pledge recited by Filipino schoolchildren:
+
+[the full pledge]
+
+Rewrite it as a Spanish friar in the Philippines in the 1880s would say it: their own pledge, in their own voice, language and worldview. Keep roughly the same length and line structure. Output only the rewritten pledge, no title or commentary.</pre>
+
+      <h3>Origin</h3>
+      <p>Originally created for <em lang="fil">Mga Sigaw ng Bayan Kong Sawi</em>, a prompt of the Santelmo Pambansang Hámon sa Pagtula 2026, which invited poets to answer, with or without AI, the question: <em>who are we, and what is the identity of a Filipino?</em></p>
+    </section>
+
+    <section id="page-about" class="page prose" hidden>
+      <h2>About the Project</h2>
+      <p>This is an experiment in machine continuation. The subject is the <em lang="fil">Panatang Makabayan</em>, the pledge recited by Filipino schoolchildren. The text is cut after each of its words, and each truncated version is given to a language model to complete. The hovered word marks the point of truncation; everything after it is the model's prediction.</p>
+      <p>A second set of trials holds the text whole and varies the speaker. One model is asked to restate the full pledge under ten assigned identities, from a friar of the 1880s to the country itself.</p>
+      <p>Three variables change: where the text is cut, which model completes it, and who is speaking. Everything else is held constant: a single prompt, a single temperature, no output language specified. Every output was generated once, in advance, and is shown as recorded. No conclusions are drawn here. The results are left to the reader.</p>
+
+      <h2 class="section-gap">About the Author</h2>
+      <img class="author" src="assets/layon.png" alt="Portrait of Láyon" width="300" height="400">
+      <p>Láyon holds a Master's degree in Data Science from Ateneo de Manila University. Upon graduation, they received the Mulry Award for Literary Excellence and the Ateneo College Awards of the Arts in Poetry. They are also a recipient of the National Youth Achievement in Literary Arts, awarded by the Philippine National Committee on Literary Arts.</p>
+      <p>They're an active member of Linangan sa Imahen, Retorika, at Anyo (LIRA), and their work has appeared in the regular issues of HEIGHTS, Ateneo's literary publication, where they also served as managing editor. Their academic and creative interests lie at the confluence of artificial intelligence, language, and the posthuman.</p>
+      <p lang="fil"><em>Akala ni Láyon matematika ang mapapangasawa niya. Ngunit nang makilala ang pagtula, hindi na mabuo-buo ang kanyang isip. Hanggang ngayon, hinahanap niya pa rin ang sariling layon.</em></p>
+      <p>
+        Website: <a href="https://thelionlies.github.io/layon/">thelionlies.github.io/layon</a><br>
+        Email: <a href="mailto:layon.connect@gmail.com">layon.connect@gmail.com</a>
+      </p>
+    </section>
+
+    <footer>
+      <p>© 2026 Láyon · Made with AI · <a href="https://thelionlies.github.io/layon/">thelionlies.github.io/layon</a></p>
+    </footer>
+  </main>
+
+  <script src="data/autocomplete.js"></script>
+  <script src="data/roles.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
