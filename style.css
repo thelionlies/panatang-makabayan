@@ -288,6 +288,15 @@ html, body { overflow-anchor: none; }
   font-size: 1.5rem;
 }
 .prose h2.section-gap { margin-top: 3.5rem; }
+.prose .page-title {
+  margin: 0 0 3rem;
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.3;
+  text-wrap: balance;
+  color: var(--orange);
+}
 .prose h3 {
   margin: 2.25rem 0 0.6rem;
   font: 500 0.6875rem/1 "IBM Plex Mono", monospace;

@@ -207,6 +207,7 @@ def strip_echo(prefix, out):
             break
     if best:
         out = out[om[best - 1].end():]
+    out = out.replace("­", "")  # invisible soft hyphens can surface as stray hyphens on wrap
     return re.sub(r"^(\.\.\.|…)\s*", "", out.lstrip(" "))  # a leading "..." only marks "continuing"
 
 
@@ -217,6 +218,7 @@ REFUSAL_RE = re.compile(
     r"|maipagpapatuloy|makapagpapatuloy|makikibahagi sa pagpapatuloy|salita-sa-salita"
     r"|output only the continuation|don[’']?t see any|no text came through|your message"
     r"|kasunod na bahagi ng tekstong|could you (share|paste)|not sure what (text )?you|only text"
+    r"|makapagbibigay|pagpapatuloy ng tekstong|mag-iba depende|fixed continuation|this text is|I[’']ll continue"
     r"|nothing came through|no earlier|I see no|need to pause"
 )
 NO_TEXT_RE = re.compile(
@@ -226,14 +228,36 @@ NO_TEXT_RE = re.compile(
 MAX_RETRIES = 5
 
 
+# Decoding glitches: a few stray Chinese characters or unassigned code points tacked onto a reply.
+GLITCH_RE = re.compile(r"[　-鿿가-힯\U00020000-\U0010ffff]")
+
+
 def is_refusal(text):
-    return bool(REFUSAL_RE.search(text))
+    """True for replies that should be re-asked: refusals, commentary, or decoding glitches."""
+    return bool(REFUSAL_RE.search(text) or GLITCH_RE.search(text))
+
+
+PROPER_RE = re.compile(r"^(Pilipin|Inang|Diyos|Panginoon|Maykapal|Bathala)")
+
+
+def starts_mid_sentence_capital(prefix, out):
+    """A continuation that opens with a capital although the pledge stops mid-sentence."""
+    out = out.lstrip()
+    return out[:1].isupper() and not PROPER_RE.match(out) and not re.search(r"[.!?]$", prefix)
+
+
+def fix_case(prefix, out):
+    """Last resort after re-asking: lowercase the first letter so it reads as one sentence."""
+    if starts_mid_sentence_capital(prefix, out):
+        lead = len(out) - len(out.lstrip())
+        return out[:lead] + out[lead].lower() + out[lead + 1:]
+    return out
 
 
 def answers(prefix, raw_variants):
     """Cleaned variants, dropping refusals whenever at least one version actually answered."""
     good = [r for r in raw_variants if not is_refusal(r)]
-    return [strip_echo(prefix, r) for r in (good or raw_variants)]
+    return [fix_case(prefix, strip_echo(prefix, r)) for r in (good or raw_variants)]
 
 
 def run(jobs, key, cache, force, max_tokens=500):
@@ -311,12 +335,9 @@ def parse_key(ck):
 def cmd_refusals(key, cache, force):
     """Re-ask every machine continuation that is a refusal, up to MAX_RETRIES times each.
     The first refusal stays in the cache under "refused|..." for the record."""
-    # A refusal already re-asked before is kept as it stands (it means it), unless it was a
-    # "no text" non-answer, which gets another round with SHORT_TEXT_INSTRUCTION.
     targets = [
         ck for ck, text in cache.items()
         if ck.startswith("ac|") and parse_key(ck)[1] in HOVER_RANGE and is_refusal(text)
-        and ("refused|" + ck not in cache or NO_TEXT_RE.search(text))
     ]
     print(f"{len(targets)} refusals to re-ask (max {MAX_RETRIES} tries each)")
 
@@ -345,6 +366,39 @@ def cmd_refusals(key, cache, force):
                 print(f"  OK after {attempts} {'try' if attempts == 1 else 'tries'}: {ck} ('{word}')")
             else:
                 print(f"  STILL REFUSING after {attempts} tries: {ck} ('{word}')")
+    save_cache(cache)
+    print(f"cost this run: ${_spent['usd']:.6f}")
+    cmd_autocomplete(key, cache, False)
+
+
+def cmd_capitals(key, cache, force):
+    """Re-ask continuations that start a new sentence where the pledge stops mid-sentence,
+    up to MAX_RETRIES times each; whatever is left gets its first letter lowercased."""
+    targets = [
+        ck for ck, text in cache.items()
+        if ck.startswith("ac|") and parse_key(ck)[1] in HOVER_RANGE
+        and starts_mid_sentence_capital(prefix_at(parse_key(ck)[1]), strip_echo(prefix_at(parse_key(ck)[1]), text))
+    ]
+    print(f"{len(targets)} capitalized continuations to re-ask (max {MAX_RETRIES} tries each)")
+
+    def retry(ck):
+        model, i, system = parse_key(ck)
+        prefix = prefix_at(i)
+        for attempt in range(1, MAX_RETRIES + 1):
+            text = chat(key, model, AUTOCOMPLETE_INSTRUCTION + prefix, system)
+            if not is_refusal(text) and not starts_mid_sentence_capital(prefix, strip_echo(prefix, text)):
+                return ck, text, attempt
+        return ck, None, MAX_RETRIES
+
+    with cf.ThreadPoolExecutor(max_workers=8) as ex:
+        for ck, text, attempts in ex.map(retry, targets):
+            word = WORDS[parse_key(ck)[1]].group()
+            if text:
+                cache.setdefault("capital|" + ck, cache[ck])
+                cache[ck] = text
+                print(f"  OK after {attempts} {'try' if attempts == 1 else 'tries'}: {ck} ('{word}')")
+            else:
+                print(f"  kept, will be lowercased: {ck} ('{word}')")
     save_cache(cache)
     print(f"cost this run: ${_spent['usd']:.6f}")
     cmd_autocomplete(key, cache, False)
@@ -392,6 +446,7 @@ if __name__ == "__main__":
     ONLY = next((a.split("=", 1)[1] for a in args if a.startswith("--only=")), None)
     mode = next((a for a in args if not a.startswith("--")), None)
     commands = {"test": [cmd_test], "autocomplete": [cmd_autocomplete], "refusals": [cmd_refusals],
+                "capitals": [cmd_capitals],
                 "roles": [cmd_roles],
                 "all": [cmd_autocomplete, cmd_roles]}
     if mode not in commands:

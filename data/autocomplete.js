@@ -56,7 +56,7 @@ window.AUTOCOMPLETE = {
      "at pinag-aaruga ako.\n\nBilang anak ng Pilipinas,\ntutuparin ko ang aking tungkulin\nsa bayan nang buong katapatan;\npaglilingkuran ko ang aking mga magulang,\nsusundin ko ang mga tuntunin ng paaralan,\ntatalima ako sa mga batas ng pamahalaan,\nat mag-aambag ako sa pag-unlad ng pamayanan."
     ],
     [
-     "at tinuturuan maging mabuti, masipag, at marangal. 马会",
+     "at binibigyan ng lakas upang maging kapaki-pakinabang at marangal na mamamayan. Tungkulin kong mahalin at igalang ito, pakinggan ang payo ng aking mga magulang, at sundin ang mga tuntunin ng paaralan. Makikibahagi ako sa mga gawaing makatutulong sa aking kapwa at sa ating bayan, at iingatan ko ang kalayaan at pagkakaisa ng Pilipinas.",
      "at tinuturuan ng mga magulang ko upang maging mabuting mamamayan at matapat na Pilipino. Iniibig ko ang Pilipinas, aking lupang sinilangan, at pinahahalagahan ang kalayaan at karapatang ipinagkaloob sa akin ng mga bayani."
     ],
     [
@@ -137,7 +137,7 @@ window.AUTOCOMPLETE = {
     ],
     [
      "susundin ko ang tuntunin ng paaralan,\ntutuparin ko ang tungkulin ng mamamayang makabayan:\nnaglilingkod, nag-aaral at nagdarasal nang buong katapatan.",
-     "Hindi makapagbibigay ng pagpapatuloy ng tekstong hindi mo ibinigay. Maaari kitang tulungang ibuod ito o gumawa ng orihinal na kasunod na talata sa kaparehong tema."
+     "susundin ko ang tuntunin ng paaralan,\ntutuparin ko ang tungkulin ng mamamayang makabayan,\nmaglilingkod, mag-aaral at mananalangin nang taimtim.\nIaalay ko ang aking buhay, pangarap at pagsisikap\nsa bansang Pilipinas."
     ],
     [
      "ko ang mga tuntunin ng paaralan,\ntutuparin ko ang mga tungkulin\nng mamamayang makabayan:\nnaglilingkod, nag-aaral at nagdarasal\nnang buong katapatan.\nIaabuloy ko ang aking buhay,\npangarap, pagsisikap\nsa bansang Pilipinas.",
@@ -149,7 +149,7 @@ window.AUTOCOMPLETE = {
     ],
     [
      "paalala ng aking guro,\ntutuparin ko ang tungkulin\nng mamamayang makabayan:\nnaglilingkod, nag-aaral at nagdarasal\nnang buong katapatan.\nIaalay ko ang aking buhay, pangarap, pagsisikap\nsa bansang Pilipinas.",
-     "You should obey the policies provided by my teachers, love my country, and do my duties as a good and responsible Filipino."
+     "paalala ng aking paaralan,\ntutuparin ko ang tungkulin\nng mamamayang makabayan:\nnaglilingkod, nag-aaral at nagdarasal\nnang buong katapatan.\nIaalay ko ang aking buhay,\npangarap, pagsisikap\nsa bansang Pilipinas."
     ],
     [
      "at tungkulin ng paaralan,\ntutuparin ko ang mga tuntunin ng pamayanan.",
@@ -180,12 +180,12 @@ window.AUTOCOMPLETE = {
      "ko bilang mamamayang makabayan: naglilingkod, nag-aaral, at nagmamalasakit sa kapwa."
     ],
     [
-     "There isn’t a single fixed continuation of this passage; it may vary by version.",
-     "Mag-aaral ng Pilipinas."
+     "aking mamamayan:\nnaglilingkod, nag-aaral at nagdarasal\nnang buong katapatan.\nIaalay ko ang aking buhay, pangarap,\npagsisikap sa bansang Pilipinas.",
+     "aking mamamayan:\nnaglilingkod, nag-aaral at nagdarasal\nnang buong katapatan.\nInaalay ko ang aking buhay,\npangarap, pagsisikap\nsa bansang Pilipinas."
     ],
     [
      "Pilipino: paglilingkuran ko ang aking bayan nang buong katapatan at pagmamahal.",
-     "Hinihingi sa akin ng bayan."
+     "Pilipino: paglilingkuran ko ang aking bayan nang buong katapatan at pagmamahal."
     ],
     [
      "paglilingkuran ko ang aking bayan\nnang buong katapatan at pagmamahal.",
@@ -236,7 +236,7 @@ window.AUTOCOMPLETE = {
      "buhay, pangarap, pagsisikap\nsa bansang Pilipinas."
     ],
     [
-     "pa­ngarap, pagsisikap at pag-asa sa bansang Pilipinas.",
+     "pangarap, pagsisikap at pag-asa sa bansang Pilipinas.",
      "upang maging tapat sa aking bayan."
     ],
     [
@@ -252,8 +252,8 @@ window.AUTOCOMPLETE = {
      "pag-unlad ng aking bayang Pilipinas."
     ],
     [
-     "Dahil mahal ko ang Pilipinas, magsisikap akong maging mabuting mamamayan.",
-     "Ang pagpapatuloy ng tekstong ito ay maaaring mag-iba depende sa bersiyon. Kung ibibigay mo ang susunod na linya o ang bersiyong tinutukoy mo, maitutuloy ko ito."
+     "Pilipinas.",
+     "ito."
     ]
    ]
   },
@@ -268,10 +268,11 @@ window.AUTOCOMPLETE = {
      "ko ang bawat sandali na kasama ka, at sa bawat pagsikat ng araw, pangalan mo ang unang iniisip ng puso ko."
     ],
     [
-     "Ikaw, kahit hindi mo alam ang bawat tibok nitong puso na para sa iyo lamang."
+     "ikaw, kahit hindi mo alam ang bawat tibok nitong puso na para sa iyo lamang.",
+     "ikaw, sa bawat tibok ng puso ko."
     ],
     [
-     "Ikaw, at sa bawat araw na lumilipas, lalo kong nararamdaman na ikaw ang tahanan ng aking puso.",
+     "ikaw, at sa bawat araw na lumilipas, lalo kong nararamdaman na ikaw ang tahanan ng aking puso.",
      "buhay kapag ikaw ang kasama ko sa bawat umaga, sa bawat tawa at bawat luha na pinagsaluhan natin sa ilalim ng iisang langit."
     ],
     [
@@ -472,7 +473,7 @@ window.AUTOCOMPLETE = {
     ],
     [
      "Ang bayan ko'y sa Diyos aking ipagkakatiwala,\nlahat ng pagsisikap ko'y sa kanya ialay,\nupang maging kapaki-pakinabang sa kapwa,\nat sa kinabukasan ng Pilipinas ay maging tanglaw.",
-     "This text is the Filipino patriotic poem \"Iniibig Ko ang Pilipinas,\" which is a well-known public school poem. Since the excerpt ends with a complete stanza, I'll continue with the next stanza of the poem as it's commonly recited:\n\nAng Pilipinas ang aking bayan,\ndito ko nais mamuhay nang payapa;\nang bawat puso ko'y para sa kanya,\nhanggang sa wakas ng aking buhay."
+     "Ang bayang ito'y aking itataguyod\nng puso at dangal, sa araw at gabi;\nhindi ko ipagkakanulo ang watawat\nna sumasagisag sa ating kalayaan."
     ],
     [
      "kong buong puso ang aking lakas at talino\nsa ikabubuti ng bayan.\nAko ay magiging mabuting anak,\nmabuting mag-aaral, at mabuting Pilipino\nna may malasakit sa kapwa\nat may dangal sa sariling bayan.\nSa bawat hakbang ko sa buhay,\nang Pilipinas ang aking gabay;\nang kanyang kasaysayan ang aking aral,\nat ang kanyang kinabukasan ang aking pangarap.\nKaya, Pilipinas, ikaw ang aking sandigan\nat ang aking buhay ay para sa iyo.",
@@ -815,7 +816,7 @@ window.AUTOCOMPLETE = {
      "lahi, yaman ng aking bayan.\nSa bawat isla at karagatan,\ntinig ng masa'y aking damdam,\npag-asa't pakikibaka ng mamamayan.\n\nIniibig ko ang Pilipinas,\nsa kabila ng unos at bagyo,\nsa gitna ng hirap at pagsubok,\nmananatili ang pag-ibig ko't panata,\nsa iyong kalayaan at dangal,\nhindi ako susuko."
     ],
     [
-     "Ako'y kanyang kinukupkop,\ntinutulungan upang mabuhay,\nsa kanyang mga bisig ako'y ligtas,\nsa kanyang mga pakpak ako'y malaya.\n\nAng kanyang mga bundok at dagat,\nnagsisilbing tanglaw sa aking landas;\nang kanyang mga ilog at kapatagan,\nnagbibigay buhay sa aking katawan.\n\nKahit saan man ako magpunta,\nang kanyang alaala'y di mawawala;\nsa puso ko'y laging nariyan,\nang wagas kong pagmamahal sa bayan.",
+     "lupang tinubuan ng aking mga ninuno,\nduyan ng aking pagkabata,\nat saksi sa aking paglaki.\n\nSa bawat pulong aking nararating,\ndamdamin ko'y sumisigaw ng pagmamahal,\nhangad ko'y kapayapaan at kaunlaran\npara sa iyong kinabukasan.\n\nAng iyong mga bayani'y aking gagalangin,\nang iyong watawat ay aking ipagmamalaki,\nat hanggang sa huling hininga ko,\nikaw ay aking mamahalin.",
      "lupang kinukupkop ako’t\ntinataguyod sa kahirapan.\nMaligaya akong mamatay\nkung dahil sa paglilingkod ko sa iyo’y\nmabubuhay ka."
     ],
     [
@@ -955,8 +956,8 @@ window.AUTOCOMPLETE = {
      "makabayan sa pamamagitan ng pagiging tapat, matulungin, at mapagmahal sa kapwa."
     ],
     [
-     "Iaalay ko ang aking buhay,\npagsisikap, at lakas\nsa paglilingkod sa bayan.\nMamamahal ko ang aking kapwa,\ngagalangin ko ang karapatan\nng bawat isa,\nat ipagmamalaki ko\nang aking pagiging Pilipino\nsaan man ako dalhin ng panahon.\nAko ay Pilipino,\nbuo ang loob, tapat ang puso,\nat handang maglingkod\nsa Diyos, sa bayan, at sa kapwa.",
-     "Iaalay ko ang aking buhay,\npag-aaral, at lakas\nsa paglilingkod sa bayan.\nPaglilingkuran ko ang aking bayan\nnang walang pag-iimbot at buong katapatan.\nSisikapin kong maging isang tunay na Pilipino,\nsa isip, sa salita, at sa gawa."
+     "mamahalin ko ang aking bayan,\nipagmamalaki ko ang aking lahi,\nat gagawin ko ang lahat\nupang maging maunlad\nat mapayapa ang Pilipinas.",
+     "lilingkuran ko ang aking bayan\nnang walang pag-iimbot at buong katapatan.\nSisikapin kong maging isang tunay na Pilipino\nsa isip, sa salita, at sa gawa."
     ],
     [
      "nagmamahal at nag-aalay\nng buong katapatan at lakas\nsa bansang aking sinilangan.",

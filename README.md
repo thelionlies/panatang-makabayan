@@ -1,6 +1,6 @@
-# Panatang Makabayan
+# Inference after Panatang Makabayan
 
-An experiment in machine continuation, built around the *Panatang Makabayan*, the pledge recited by Filipino schoolchildren.
+An experiment in language model inference, built around the *Panatang Makabayan*, the pledge recited by Filipino schoolchildren.
 
 **Live site:** https://thelionlies.github.io/panatang-makabayan/
 
@@ -37,7 +37,7 @@ Needs Python 3.8+ and an OpenRouter API key. No extra packages are required.
 2. Run:
    ```bash
    python generate.py test          # a few calls, printed only
-   python generate.py all           # machine continuations and voice rewrites
+   python generate.py all           # machine completions and voice rewrites
    python generate.py refusals      # re-ask any continuation that came back as a refusal
    ```
 

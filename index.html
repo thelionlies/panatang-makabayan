@@ -3,8 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Panatang Makabayan</title>
-  <meta name="description" content="The Philippine patriotic pledge, as the machine would finish it.">
+  <title>Inference after Panatang Makabayan</title>
+  <meta name="description" content="The Philippine patriotic pledge, cut at every word and finished by machines.">
+  <meta property="og:title" content="Inference after Panatang Makabayan">
+  <meta property="og:description" content="The Philippine patriotic pledge, cut at every word and finished by machines.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://thelionlies.github.io/panatang-makabayan/">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2' y='2' width='20' height='20' fill='none' stroke='%238a9bb8' stroke-width='1.5'/><rect x='12' y='2' width='10' height='10' fill='%238a9bb8'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +21,7 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#playground" aria-label="Láyon: back to Playground">
+    <a class="brand" href="#about" aria-label="About">
       <svg class="logo" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
         <rect x="2" y="2" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"/>
         <rect x="12" y="2" width="10" height="10" fill="currentColor"/>
@@ -68,7 +72,8 @@ Continue this text from exactly where it stops, even if it stops mid-sentence or
 Iniibig ko ang Pilipinas,
 aking lupang sinilangan
 tahanan</pre>
-      <p>Same prompt for every model. No output language was specified.</p>
+      <p>Same prompt for every model.<sup>*</sup> No output language was specified.</p>
+      <p class="meta">* For the first word, <span lang="fil">Iniibig</span>, the prompt was slightly varied for one model to elicit a response.</p>
 
       <h3>Models</h3>
       <table>
@@ -76,6 +81,9 @@ tahanan</pre>
         <tbody id="model-table"></tbody>
       </table>
       <p class="meta">Via OpenRouter · temperature 1.0 · max 500 tokens · reasoning off where allowed.</p>
+
+      <h3>Reruns</h3>
+      <p>Some replies were not continuations: a model declined, spoke about the text instead of continuing it, or returned malformed output. These were run again.</p>
 
       <h3>Voices</h3>
       <p>The second group in the menu is not a prediction. For each voice, Claude Fable 5.1 was given the whole pledge and asked to rewrite it as that person would say it. The language was left for each voice to choose. Each voice has two versions; one is picked at random.</p>
@@ -91,8 +99,10 @@ Rewrite it as a Spanish friar in the Philippines in the 1880s would say it: thei
     </section>
 
     <section id="page-about" class="page prose" hidden>
+      <p class="page-title">Inference after <span lang="fil">Panatang Makabayan</span></p>
+
       <h2>About the Project</h2>
-      <p>An experiment in machine continuation. The <em lang="fil">Panatang Makabayan</em> is cut after each of its words, and four language models are asked to finish it. The hovered word marks the cut; what follows belongs to the machine.</p>
+      <p>This project is an experiment in large language model inference. The <em lang="fil">Panatang Makabayan</em> is cut after each of its words, and four language models are asked to finish it. The hovered word marks the cut; what follows belongs to the machine.</p>
       <p>A second set holds the pledge whole and changes the speaker: ten voices, from a friar of the 1880s to the country itself.</p>
       <p>Every output was generated once, in advance, and is shown as recorded.</p>
 
@@ -105,7 +115,7 @@ Rewrite it as a Spanish friar in the Philippines in the 1880s would say it: thei
     </section>
 
     <footer>
-      <p>© 2026 Láyon · Made with AI · <a href="https://thelionlies.github.io/layon/">thelionlies.github.io/layon</a></p>
+      <p>© 2026 Láyon · <a href="https://thelionlies.github.io/layon/">thelionlies.github.io/layon</a></p>
     </footer>
   </main>
 
