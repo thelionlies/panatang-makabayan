@@ -345,7 +345,7 @@ html, body { overflow-anchor: none; }
   display: block;
   width: 7.5rem;
   height: auto;
-  margin: 0 0 1.75rem;
+  margin: 0 auto 1.75rem;
   border: 1px solid var(--line);
 }
 
