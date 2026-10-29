@@ -29,33 +29,22 @@ sa bansang Pilipinas.`;
   const voicesData = window.ROLES || { roles: [] };
   const completionsById = Object.fromEntries(data.models.map((m) => [m.id, m.completions]));
 
-  // One dropdown, two kinds of choice: machines finish the pledge from a hovered word,
-  // voices are the whole pledge rewritten as someone else would say it.
-  const GROUPS = [
-    { title: "Machines", items: MODELS.map((m) => ({ ...m, kind: "machine", sub: `${m.maker} · ${m.origin}` })) },
-    { title: "Voices", items: voicesData.roles.map((r) => ({ ...r, kind: "voice", sub: r.gloss })) },
-  ].filter((g) => g.items.length);
-  const CHOICES = GROUPS.flatMap((g) => g.items);
+  // Two tabs share one page: Inference (machines finish the pledge from a hovered word) and
+  // Voices (the whole pledge rewritten as someone else would say it). Each keeps its own choice.
+  const MODES = {
+    inference: MODELS.map((m) => ({ ...m, kind: "machine", sub: `${m.maker} · ${m.origin}` })),
+    voices: voicesData.roles.map((r) => ({ ...r, kind: "voice", sub: r.gloss })),
+  };
+  const chosen = { inference: MODES.inference[0], voices: MODES.voices[0] };
 
   const pledge = data.pledge || PLEDGE;
   const words = [...pledge.matchAll(/\S+/g)].map((m) => ({ text: m[0], start: m.index, end: m.index + m[0].length }));
-  let choice = CHOICES[0];
+  let mode = "inference";
+  let choice = chosen.inference;
   let voiceText = ""; // the rewrite picked when a voice was chosen
   let active = null; // hovered word index
   let leaveTimer = null;
   const random = (list) => list[Math.floor(Math.random() * list.length)];
-
-  // ---- Tabs (hash routing) ----
-  const tabs = [...document.querySelectorAll(".tabs a")];
-  function showTab() {
-    const id = location.hash.slice(1);
-    const current = tabs.some((t) => t.dataset.tab === id) ? id : "playground";
-    tabs.forEach((t) => t.setAttribute("aria-current", t.dataset.tab === current ? "page" : "false"));
-    document.querySelectorAll(".page").forEach((p) => (p.hidden = p.id !== "page-" + current));
-    scrollTo(0, 0);
-  }
-  addEventListener("hashchange", showTab);
-  showTab();
 
   // ---- Selector (custom dropdown; the native <select> popup can't be styled) ----
   const pickerBtn = document.getElementById("model-button");
@@ -64,14 +53,10 @@ sa bansang Pilipinas.`;
   const hintEl = document.querySelector(".hint");
   const machineHint = hintEl.textContent;
 
-  const optionBtns = [];
-  GROUPS.forEach((g) => {
-    const head = document.createElement("li");
-    head.className = "group";
-    head.setAttribute("role", "presentation");
-    head.textContent = g.title;
-    pickerList.appendChild(head);
-    g.items.forEach((item) => {
+  let optionBtns = [];
+  function buildPicker(items) {
+    pickerList.innerHTML = "";
+    optionBtns = items.map((item) => {
       const li = document.createElement("li");
       const b = document.createElement("button");
       b.type = "button";
@@ -83,14 +68,14 @@ sa bansang Pilipinas.`;
       });
       li.appendChild(b);
       pickerList.appendChild(li);
-      optionBtns.push(b);
+      return b;
     });
-  });
+  }
 
   function choose(item, rerender = true) {
-    choice = item;
+    choice = chosen[mode] = item;
     pickerLabel.textContent = item.label;
-    optionBtns.forEach((b, i) => b.setAttribute("aria-selected", CHOICES[i] === item));
+    optionBtns.forEach((b, i) => b.setAttribute("aria-selected", MODES[mode][i] === item));
     hintEl.textContent =
       item.kind === "voice" ? `${item.gloss}, as imagined by ${voicesData.modelLabel}.` : machineHint;
     if (item.kind === "voice") voiceText = random(item.rewrites);
@@ -99,10 +84,17 @@ sa bansang Pilipinas.`;
     if (rerender) renderHula(null);
   }
 
+  function setMode(next) {
+    if (!MODES[next].length) next = "inference";
+    mode = next;
+    buildPicker(MODES[mode]);
+    choose(chosen[mode]);
+  }
+
   function openPicker() {
     pickerList.hidden = false;
     pickerBtn.setAttribute("aria-expanded", "true");
-    optionBtns[CHOICES.indexOf(choice)].focus();
+    optionBtns[MODES[mode].indexOf(choice)].focus();
   }
   function closePicker(refocus) {
     pickerList.hidden = true;
@@ -213,7 +205,19 @@ sa bansang Pilipinas.`;
   });
   hulaEl.addEventListener("mouseleave", scheduleRevert);
 
-  choose(CHOICES[0]);
+  // ---- Pages (hash routing); no hash or an unknown one shows the landing page ----
+  const tabs = [...document.querySelectorAll(".tabs a")];
+  function showTab() {
+    let id = location.hash.slice(1);
+    if (id === "playground") id = "inference"; // links shared before the tabs were split
+    const page = id === "inference" || id === "voices" ? "play" : ["notes", "about"].includes(id) ? id : "home";
+    tabs.forEach((t) => t.setAttribute("aria-current", t.dataset.tab === id ? "page" : "false"));
+    document.querySelectorAll(".page").forEach((p) => (p.hidden = p.id !== "page-" + page));
+    if (page === "play") setMode(id);
+    scrollTo(0, 0);
+  }
+  addEventListener("hashchange", showTab);
+  showTab();
 
   // ---- Light / dark toggle; with no saved choice the system setting applies ----
   document.getElementById("theme-toggle").addEventListener("click", () => {

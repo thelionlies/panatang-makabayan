@@ -21,14 +21,15 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#about" aria-label="About">
+    <a class="brand" href="#home" aria-label="Home">
       <svg class="logo" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
         <rect x="2" y="2" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"/>
         <rect x="12" y="2" width="10" height="10" fill="currentColor"/>
       </svg>
     </a>
     <nav class="tabs">
-      <a href="#playground" data-tab="playground">Playground</a>
+      <a href="#inference" data-tab="inference">Inference</a>
+      <a href="#voices" data-tab="voices">Voices</a>
       <a href="#notes" data-tab="notes">Notes</a>
       <a href="#about" data-tab="about">About</a>
     </nav>
@@ -36,11 +37,23 @@
   </header>
 
   <main>
-    <section id="page-playground" class="page">
+    <section id="page-home" class="page landing" hidden>
+      <h1 class="landing-title">Inference after <span lang="fil">Panatang Makabayan</span></h1>
+      <figure class="epigraph">
+        <p class="headword">in·fer·ence <span class="pos">noun</span></p>
+        <ol>
+          <li>the act of passing from one proposition, statement, or judgment considered as true to another whose truth is believed to follow from that of the former <cite>Merriam-Webster</cite></li>
+          <li>the act of using a trained AI model to make predictions on new data <cite>IBM</cite></li>
+        </ol>
+      </figure>
+      <a class="begin" href="#inference">Begin <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section id="page-play" class="page" hidden>
       <h1>
         <span lang="fil">Panatang Makabayan</span>, according to
         <span class="picker">
-          <button type="button" id="model-button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose a model">
+          <button type="button" id="model-button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose who finishes the pledge">
             <span class="picker-label"></span>
             <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
           </button>
@@ -57,7 +70,7 @@
     <section id="page-notes" class="page prose" hidden>
       <h2>Notes</h2>
 
-      <p><strong>No AI runs on this page.</strong> Everything you see in the Playground was generated once, ahead of time.</p>
+      <p><strong>No AI runs on this site.</strong> Everything you see under Inference and Voices was generated once, ahead of time.</p>
 
       <h3>Process</h3>
       <p>For each word of the pledge, the text up to that word was given to each model, which wrote the rest. The final word gets nothing: there, the pledge simply ends. Each of the other 62 words has two versions per model: 496 independent calls, none aware of the others. Hovering shows one of the two at random.</p>
@@ -86,7 +99,7 @@ tahanan</pre>
       <p>Some replies were not continuations: a model declined, spoke about the text instead of continuing it, or returned malformed output. These were run again.</p>
 
       <h3>Voices</h3>
-      <p>The second group in the menu is not a prediction. For each voice, Claude Fable 5.1 was given the whole pledge and asked to rewrite it as that person would say it. The language was left for each voice to choose. Each voice has two versions; one is picked at random.</p>
+      <p>The Voices tab is not a prediction. For each voice, Claude Fable 5.1 was given the whole pledge and asked to rewrite it as that person would say it. The language was left for each voice to choose. Each voice has two versions; one is picked at random.</p>
       <pre><span class="label">user</span>
 Here is the Panatang Makabayan, the patriotic pledge recited by Filipino schoolchildren:
 
@@ -100,6 +113,13 @@ Rewrite it as a Spanish friar in the Philippines in the 1880s would say it: thei
 
     <section id="page-about" class="page prose" hidden>
       <p class="page-title">Inference after <span lang="fil">Panatang Makabayan</span></p>
+      <figure class="epigraph">
+        <p class="headword">in·fer·ence <span class="pos">noun</span></p>
+        <ol>
+          <li>the act of passing from one proposition, statement, or judgment considered as true to another whose truth is believed to follow from that of the former <cite>Merriam-Webster</cite></li>
+          <li>the act of using a trained AI model to make predictions on new data <cite>IBM</cite></li>
+        </ol>
+      </figure>
 
       <h2>About the Project</h2>
       <p>This project is an experiment in large language model inference. The <em lang="fil">Panatang Makabayan</em> is cut after each of its words, and four language models are asked to finish it. The hovered word marks the cut; what follows belongs to the machine.</p>
