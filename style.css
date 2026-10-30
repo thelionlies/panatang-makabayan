@@ -117,11 +117,19 @@ a { color: inherit; }
 
 /* ---------- Layout ---------- */
 
+/* Page fills the window and the footer sits at the bottom, so short pages never scroll. */
+body { display: flex; flex-direction: column; min-height: 100vh; }
 main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   max-width: 34rem;
   margin: 0 auto;
-  padding: 3.5rem 1rem 2.5rem;
+  padding: 2.5rem 1rem 1.5rem;
 }
+.page { padding-bottom: 5rem; }
+.landing.page { padding-bottom: 2.5rem; }
 
 /* ---------- Playground ---------- */
 
@@ -210,8 +218,8 @@ h1 {
 }
 
 .poem {
-  margin-top: 3rem;
-  padding-top: 3rem;
+  margin-top: 1.25rem;
+  padding-top: 2.25rem;
   border-top: 1px solid var(--line);
 }
 
@@ -222,21 +230,18 @@ h1 {
   margin-left: auto;
   margin-right: auto;
   text-align: left;
-}
-
-.poem-title {
-  margin: 0 auto 1.75rem;
-  text-align: center;
-  font-weight: 500;
-  font-size: 1.5rem;
-  letter-spacing: 0.01em;
-}
-
-.pledge {
   white-space: pre-wrap;
   font-size: 1.1875rem;
   line-height: 1.75;
   min-height: 29rem;
+}
+
+.poem-title {
+  margin: 0 auto 1.5rem;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.5rem;
+  letter-spacing: 0.01em;
 }
 
 #hula-text { display: grid; }
@@ -249,7 +254,8 @@ html, body { overflow-anchor: none; }
 #hula-text.is-voice .ghost { pointer-events: none; }
 #hula-text.is-voice .ai { background: none; }
 /* the hovered word: solid, where the pledge hands over to the machine */
-#hula-text .w.active {
+#hula-text .w.active,
+.selection .w.active {
   color: var(--bg);
   background: var(--orange);
   border-radius: 2px;
@@ -258,13 +264,11 @@ html, body { overflow-anchor: none; }
 
 /* everything the machine wrote after it */
 .ai {
+  color: var(--orange);
   background: var(--orange-bg);
   border-radius: 2px;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-}
-.ai {
-  color: var(--orange);
   animation: appear 0.35s ease-out;
 }
 
@@ -275,16 +279,16 @@ html, body { overflow-anchor: none; }
 
 /* ---------- Landing ---------- */
 
+/* Starts at the same height as every other page; title and each selection share that top. */
 .landing {
-  min-height: calc(100vh - 14rem);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
+  cursor: pointer;
 }
 .landing-title {
-  margin: 0 0 2.75rem;
+  margin: 0 0 2.5rem;
   font-weight: 500;
   font-size: clamp(1.75rem, 6vw, 2.25rem);
   line-height: 1.25;
@@ -292,23 +296,51 @@ html, body { overflow-anchor: none; }
   text-wrap: balance;
 }
 .begin {
-  margin-top: 3rem;
+  margin-top: 2rem;
+  padding: 0.8rem 1.4rem;
   font: 500 0.75rem/1 "IBM Plex Mono", monospace;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink);
-  text-decoration: none;
-  padding: 0.8rem 1.4rem;
+  background: none;
   border: 1px solid var(--line);
   border-radius: 999px;
+  cursor: pointer;
   transition: color 0.2s, border-color 0.2s;
 }
 .begin:hover { color: var(--orange); border-color: var(--orange); }
+.begin .arrow { font-size: 1.1rem; line-height: 0; }
+.tour-stage { width: 100%; }
+
+/* The walk-through: the title arrives first, then the epigraph, then the arrow. */
+.tour-intro > *, .tour-intro ~ .begin { animation: rise 0.9s ease-out both; }
+.tour-intro .epigraph { animation-delay: 0.7s; }
+.landing:has(.tour-intro:not([hidden])) .begin { animation-delay: 1.4s; }
+/* Each selection: the whole pledge, then the cut, then what the machine wrote (timed in app.js). */
+.tour-stage .selection { animation: rise 0.6s ease-out both; }
+.tour-stage .w.active { animation: cut 0.5s ease-out both; }
+.tour-stage .rest { transition: opacity 0.6s ease-in; }
+.tour-stage .rest.gone { opacity: 0; }
+.tour-stage .ai { animation: appear 0.9s ease-out both; }
+.landing { transition: opacity 0.35s; }
+.landing.leaving { opacity: 0; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes cut {
+  from { color: inherit; background: transparent; box-shadow: 0 0 0 2px transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-intro > *, .tour-intro ~ .begin, .tour-stage .selection, .tour-stage .w.active, .tour-stage .ai { animation: none; }
+}
+
 
 /* the dictionary-style epigraph, on the landing page and atop About */
 .epigraph {
   max-width: 24rem;
-  margin: 0 auto 2.5rem;
+  margin: 0 auto 3rem;
   text-align: left;
   color: var(--soft);
 }
@@ -347,13 +379,14 @@ html, body { overflow-anchor: none; }
 /* ---------- Notes / About ---------- */
 
 .prose h2 {
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.25rem;
   font-weight: 500;
   font-size: 1.5rem;
+  line-height: 1.3;
 }
 .prose h2.section-gap { margin-top: 3.5rem; }
 .prose .page-title {
-  margin: 0 0 3rem;
+  margin: 0 0 2.5rem;
   text-align: center;
   font-size: 1.75rem;
   font-weight: 500;
@@ -362,7 +395,7 @@ html, body { overflow-anchor: none; }
   color: var(--orange);
 }
 .prose h3 {
-  margin: 2.25rem 0 0.6rem;
+  margin: 2.5rem 0 0.75rem;
   font: 500 0.6875rem/1 "IBM Plex Mono", monospace;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -371,7 +404,7 @@ html, body { overflow-anchor: none; }
 .prose p { margin: 0 0 0.9rem; }
 .prose strong { font-weight: 500; }
 .prose pre {
-  margin: 0 0 0.9rem;
+  margin: 0.25rem 0 0.9rem;
   padding: 1rem 1.1rem;
   background: var(--surface);
   border: 1px solid var(--line);
@@ -408,24 +441,8 @@ html, body { overflow-anchor: none; }
   text-transform: uppercase;
   color: var(--muted);
 }
-.prose blockquote {
-  margin: 0 0 1.75rem;
-  padding-left: 1.1rem;
-  border-left: 2px solid var(--orange);
-  font-style: italic;
-  color: var(--soft);
-}
-.prose blockquote p { margin: 0 0 0.3rem; }
-.prose blockquote cite {
-  display: block;
-  font: normal 0.625rem/1.6 "IBM Plex Mono", monospace;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.prose blockquote cite::before { content: "— "; }
 .prose .sample {
-  margin: 0 0 0.9rem;
+  margin: 0.25rem 0 0.9rem;
   padding: 1.1rem 1.25rem;
   background: var(--surface);
   border: 1px solid var(--line);
@@ -440,6 +457,22 @@ html, body { overflow-anchor: none; }
 }
 .prose .sample p { margin: 0; white-space: pre-line; }
 .prose .sample .cont { color: var(--orange); }
+
+/* ---------- Landing selections: each pick laid out like the hovered poem ---------- */
+
+.selection h2 {
+  margin: 0 0 0.35rem;
+  font-weight: 500;
+  font-size: clamp(1.75rem, 6vw, 2.25rem);
+  line-height: 1.25;
+}
+.selection-label {
+  margin: 0 0 2rem;
+  font: 0.6875rem/1.6 "IBM Plex Mono", monospace;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.selection .pledge { min-height: 0; }
 .prose .meta {
   font: 0.6875rem/1.6 "IBM Plex Mono", monospace;
   color: var(--muted);
@@ -454,14 +487,14 @@ html, body { overflow-anchor: none; }
   display: block;
   width: 7.5rem;
   height: auto;
-  margin: 0 auto 1.75rem;
+  margin: 0.25rem auto 1.75rem;
   border: 1px solid var(--line);
 }
 
 /* ---------- Footer ---------- */
 
 footer {
-  margin-top: 4rem;
+  margin-top: auto;
   padding-top: 1.25rem;
   border-top: 1px solid var(--line);
   font: 0.625rem/1.7 "IBM Plex Mono", monospace;
@@ -475,12 +508,12 @@ footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(-
 footer a:hover { color: var(--orange); border-color: var(--orange); }
 
 @media (max-width: 480px) {
-  main { padding-top: 2.5rem; }
+  main { padding-top: 2rem; }
   .hint { min-height: 4.8em; }
   /* the choice always gets its own line, so long voice names don't push the poem down */
   .picker { display: table; margin: 0 auto; }
   #model-list { left: 50%; translate: -50% 0; }
   .tabs { gap: 1.1rem; }
   .pledge { font-size: 1.0625rem; min-height: 26rem; }
-  .poem { margin-top: 2.25rem; padding-top: 2.25rem; }
+  .poem { margin-top: 1rem; padding-top: 1.75rem; }
 }

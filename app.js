@@ -205,6 +205,117 @@ sa bansang Pilipinas.`;
   });
   hulaEl.addEventListener("mouseleave", scheduleRevert);
 
+  // ---- Selections: the author's picks, shown as they look when hovered ----
+  // i = index of the word the pledge was cut after, v = which of the two versions.
+  const SELECTIONS = [
+    { model: "anthropic/claude-haiku-5.5", i: 3, v: 0 },
+    { model: "deepseek/deepseek-v4.1-flash", i: 9, v: 1 },
+    { model: "google/gemini-3.1-flash-lite", i: 1, v: 0 },
+    { model: "google/gemini-3.1-flash-lite", i: 2, v: 1 },
+    { model: "openai/gpt-6-luna", i: 2, v: 0 },
+    { model: "openai/gpt-6-luna", i: 6, v: 1 },
+  ];
+  const NUMERALS = ["I", "II", "III", "IV", "V", "VI"];
+  function selectionEl(s, n) {
+    const text = ((completionsById[s.model] || [])[s.i] || [])[s.v] || placeholder(s.i);
+    const model = MODELS.find((m) => m.id === s.model);
+    const section = document.createElement("section");
+    section.className = "selection";
+    section.innerHTML =
+      `<h2>${NUMERALS[n]}</h2><p class="selection-label">according to ${model.label}, after “${words[s.i].text.replace(/[,.;:]$/, "")}”</p>`;
+    // Starts as the whole pledge. cut() boxes the word, clear() fades out the rest of the
+    // pledge, finish() puts the machine's text in its place.
+    const body = document.createElement("div");
+    body.className = "pledge";
+    body.lang = "fil";
+    fillWords(body, s.i, null);
+    const rest = document.createElement("span");
+    rest.className = "rest";
+    rest.textContent = pledge.slice(words[s.i].end);
+    body.appendChild(rest);
+    section.appendChild(body);
+    section.cut = () => body.querySelector(`.w[data-i="${s.i}"]`).classList.add("active");
+    section.clear = () => rest.classList.add("gone");
+    section.finish = () => {
+      rest.remove();
+      const ai = document.createElement("span");
+      ai.className = "ai";
+      ai.textContent = (/^[\s,.;:!?)]/.test(text) ? "" : " ") + text;
+      body.appendChild(ai);
+    };
+    return section;
+  }
+
+  // ---- Landing: each click steps through the six selections, then into Inference ----
+  const tourIntro = document.querySelector(".tour-intro");
+  const tourStage = document.querySelector(".tour-stage");
+  const tourNext = document.getElementById("tour-next");
+  let step = -1; // -1 = title and epigraph
+  // The stage is as tall as the longest selection, so the button stays in one place on
+  // every step; but never so tall that the button falls below the screen on a short one.
+  function sizeStage() {
+    tourStage.style.minHeight = "";
+    let max = 0;
+    SELECTIONS.forEach((s, n) => {
+      const el = tourStage.appendChild(selectionEl(s, n));
+      max = Math.max(max, el.offsetHeight);
+      el.finish();
+      max = Math.max(max, el.offsetHeight);
+      el.remove();
+    });
+    // Everything below the stage: the button, the page's bottom padding, the footer, main's padding.
+    const px = (el, prop) => parseFloat(getComputedStyle(el)[prop]);
+    const page = document.getElementById("page-home");
+    const below = px(tourNext, "marginTop") + tourNext.offsetHeight + px(page, "paddingBottom") +
+      document.querySelector("footer").offsetHeight + px(document.querySelector("main"), "paddingBottom");
+    const room = innerHeight - (tourStage.getBoundingClientRect().top + scrollY) - below - 1;
+    tourStage.style.minHeight = Math.max(0, Math.min(max, room)) + "px";
+  }
+  addEventListener("resize", () => step >= 0 && sizeStage());
+
+  // Steps fade out before the next one renders; the reveal itself is in style.css.
+  const FADE_MS = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 350;
+  let leaving = false;
+  let beats = []; // the timed cut and finish of the current selection
+  function goTo(n) {
+    if (leaving) return;
+    leaving = true;
+    document.getElementById("page-home").classList.add("leaving");
+    setTimeout(() => {
+      leaving = false;
+      document.getElementById("page-home").classList.remove("leaving");
+      if (n < SELECTIONS.length) showStep(n);
+      else location.hash = "inference";
+    }, FADE_MS);
+  }
+
+  function showStep(n) {
+    step = n;
+    tourIntro.hidden = step >= 0;
+    tourStage.hidden = step < 0;
+    tourStage.innerHTML = "";
+    beats.forEach(clearTimeout);
+    beats = [];
+    if (step >= 0) {
+      sizeStage();
+      const el = tourStage.appendChild(selectionEl(SELECTIONS[step], step));
+      beats = [setTimeout(el.cut, 1200), setTimeout(el.clear, 2000), setTimeout(el.finish, 2700)];
+    }
+    const last = step === SELECTIONS.length - 1;
+    tourNext.innerHTML = last ? "Try <span aria-hidden=\"true\">→</span>" : "<span class=\"arrow\">→</span>";
+    tourNext.setAttribute("aria-label", step < 0 ? "Begin" : last ? "Try it" : "Next");
+    scrollTo(0, 0);
+  }
+  const advance = () => goTo(step + 1);
+  document.getElementById("page-home").addEventListener("click", (e) => {
+    if (!e.target.closest("a")) advance();
+  });
+  addEventListener("keydown", (e) => {
+    if (document.getElementById("page-home").hidden) return;
+    if (e.key === "ArrowRight") advance();
+    else if (e.key === "ArrowLeft" && step >= 0) goTo(step - 1);
+  });
+
   // ---- Pages (hash routing); no hash or an unknown one shows the landing page ----
   const tabs = [...document.querySelectorAll(".tabs a")];
   function showTab() {
@@ -214,6 +325,7 @@ sa bansang Pilipinas.`;
     tabs.forEach((t) => t.setAttribute("aria-current", t.dataset.tab === id ? "page" : "false"));
     document.querySelectorAll(".page").forEach((p) => (p.hidden = p.id !== "page-" + page));
     if (page === "play") setMode(id);
+    if (page === "home") showStep(-1);
     scrollTo(0, 0);
   }
   addEventListener("hashchange", showTab);

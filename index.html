@@ -38,6 +38,7 @@
 
   <main>
     <section id="page-home" class="page landing" hidden>
+      <div class="tour-intro">
       <h1 class="landing-title">Inference after <span lang="fil">Panatang Makabayan</span></h1>
       <figure class="epigraph">
         <p class="headword">in·fer·ence <span class="pos">noun</span></p>
@@ -46,7 +47,9 @@
           <li>the act of using a trained AI model to make predictions on new data <cite>IBM</cite></li>
         </ol>
       </figure>
-      <a class="begin" href="#inference">Begin <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="tour-stage" hidden></div>
+      <button type="button" class="begin" id="tour-next" aria-label="Begin"><span class="arrow">→</span></button>
     </section>
 
     <section id="page-play" class="page" hidden>
@@ -70,10 +73,8 @@
     <section id="page-notes" class="page prose" hidden>
       <h2>Notes</h2>
 
-      <p><strong>No AI runs on this site.</strong> Everything you see under Inference and Voices was generated once, ahead of time.</p>
-
       <h3>Process</h3>
-      <p>For each word of the pledge, the text up to that word was given to each model, which wrote the rest. The final word gets nothing: there, the pledge simply ends. Each of the other 62 words has two versions per model: 496 independent calls, none aware of the others. Hovering shows one of the two at random.</p>
+      <p>For each word of the pledge, the text up to that word was given to each model, which wrote the rest. The final word gets nothing: there, the pledge simply ends. Each of the other 62 words has two versions per model: 496 independent calls, none aware of the others. Hovering shows one of the two at random. All of it was generated ahead of time; no AI runs on this site.</p>
 
       <h3>Prompt</h3>
       <pre><span class="label">system</span>
@@ -105,15 +106,8 @@ Here is the Panatang Makabayan, the patriotic pledge recited by Filipino schoolc
 
 Rewrite it as a Spanish friar in the Philippines in the 1880s would say it: their own pledge, in their own voice, language and worldview. Keep roughly the same length and line structure. Output only the rewritten pledge, no title or commentary.</pre>
 
-      <h3>Origin</h3>
-      <p>Originally created for <em lang="fil">Mga Sigaw ng Bayan Kong Sawi</em>, a prompt of the Santelmo Pambansang Hámon sa Pagtula 2026, which invited poets to answer, with or without AI, the question: <em>who are we, and what is the identity of a Filipino?</em> Selected as one of three winning entries written with AI.</p>
-
-      <h3>From the Publisher</h3>
-      <blockquote>
-        <p>“Inference after <span lang="fil">Panatang Makabayan</span>” feeds the first words of the <span lang="fil">Panatang Makabayan</span> to different AI models and lets them finish the pledge. One of them drifts into the US Declaration of Independence.</p>
-        <cite>San Anselmo Press</cite>
-      </blockquote>
-      <p>The drift it mentions:</p>
+      <h3>Notable Inference</h3>
+      <p>Given the pledge up to “<span lang="fil">sinilangan</span>,” GPT-6 Luna finished the line, then drifted into the US Declaration of Independence.</p>
       <figure class="sample">
         <figcaption>GPT-6 Luna, after “<span lang="fil">sinilangan</span>”</figcaption>
         <p><span lang="fil">Iniibig ko ang Pilipinas,
@@ -121,6 +115,9 @@ aking lupang sinilangan</span><span class="cont"><span lang="fil">, tahanan ng a
 United States Declaration of Independence, public domain:
 We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.</span></p>
       </figure>
+
+      <h3>Origin</h3>
+      <p>Originally created for <em lang="fil">Mga Sigaw ng Bayan Kong Sawi</em>, a prompt of the Santelmo Pambansang Hámon sa Pagtula 2026, which invited poets to answer, with or without AI, the question: <em>who are we, and what is the identity of a Filipino?</em> Selected as one of three winning entries written with AI.</p>
     </section>
 
     <section id="page-about" class="page prose" hidden>
@@ -137,6 +134,7 @@ We hold these truths to be self-evident, that all men are created equal, that th
       <p>This project is an experiment in large language model inference. The <em lang="fil">Panatang Makabayan</em> is cut after each of its words, and four language models are asked to finish it. The hovered word marks the cut; what follows belongs to the machine.</p>
       <p>A second set holds the pledge whole and changes the speaker: ten voices, from a friar of the 1880s to the country itself.</p>
       <p>Every output was generated once, in advance, and is shown as recorded.</p>
+      <p>Created for Day 9 of the Santelmo Pambansang Hámon sa Pagtula 2026, where it was selected as a winning entry.</p>
 
       <h2 class="section-gap">About the Author</h2>
       <img class="author" src="assets/layon.png" alt="Portrait of Láyon" width="300" height="400">
