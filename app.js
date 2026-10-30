@@ -311,9 +311,7 @@ sa bansang Pilipinas.`;
     scrollTo(0, 0);
   }
   const advance = () => goTo(step + 1);
-  document.getElementById("page-home").addEventListener("click", (e) => {
-    if (!e.target.closest("a")) advance();
-  });
+  tourNext.addEventListener("click", advance);
   addEventListener("keydown", (e) => {
     if (document.getElementById("page-home").hidden) return;
     if (e.key === "ArrowRight") advance();
