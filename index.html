@@ -82,9 +82,7 @@ You are a helpful assistant.
 <span class="label">user</span>
 Continue this text from exactly where it stops, even if it stops mid-sentence or mid-line. Output only the continuation.
 
-Iniibig ko ang Pilipinas,
-aking lupang sinilangan
-tahanan</pre>
+<span class="sample-text">[the pledge, cut after one of its words]</span></pre>
       <p>Same prompt for every model.<sup>*</sup> No output language was specified.</p>
       <p class="meta">* For the first word, <span lang="fil">Iniibig</span>, the prompt was slightly varied for one model to elicit a response.</p>
 
@@ -103,12 +101,26 @@ tahanan</pre>
       <pre><span class="label">user</span>
 Here is the Panatang Makabayan, the patriotic pledge recited by Filipino schoolchildren:
 
-[the full pledge]
+<span class="sample-text">[the full pledge]</span>
 
 Rewrite it as a Spanish friar in the Philippines in the 1880s would say it: their own pledge, in their own voice, language and worldview. Keep roughly the same length and line structure. Output only the rewritten pledge, no title or commentary.</pre>
 
       <h3>Origin</h3>
-      <p>Originally created for <em lang="fil">Mga Sigaw ng Bayan Kong Sawi</em>, a prompt of the Santelmo Pambansang Hámon sa Pagtula 2026, which invited poets to answer, with or without AI, the question: <em>who are we, and what is the identity of a Filipino?</em> Selected as one of the winning entries.</p>
+      <p>Originally created for <em lang="fil">Mga Sigaw ng Bayan Kong Sawi</em>, a prompt of the Santelmo Pambansang Hámon sa Pagtula 2026, which invited poets to answer, with or without AI, the question: <em>who are we, and what is the identity of a Filipino?</em> Selected as one of three winning entries written with AI.</p>
+
+      <h3>From the Publisher</h3>
+      <blockquote>
+        <p>“Inference after <span lang="fil">Panatang Makabayan</span>” feeds the first words of the <span lang="fil">Panatang Makabayan</span> to different AI models and lets them finish the pledge. One of them drifts into the US Declaration of Independence.</p>
+        <cite>San Anselmo Press</cite>
+      </blockquote>
+      <p>The drift it mentions:</p>
+      <figure class="sample">
+        <figcaption>GPT-6 Luna, after “<span lang="fil">sinilangan</span>”</figcaption>
+        <p><span lang="fil">Iniibig ko ang Pilipinas,
+aking lupang sinilangan</span><span class="cont"><span lang="fil">, tahanan ng aking lahi.</span>
+United States Declaration of Independence, public domain:
+We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.</span></p>
+      </figure>
     </section>
 
     <section id="page-about" class="page prose" hidden>

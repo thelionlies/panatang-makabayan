@@ -387,6 +387,10 @@ html, body { overflow-anchor: none; }
   text-transform: uppercase;
   color: var(--orange);
 }
+.prose pre .sample-text {
+  background: var(--orange-bg);
+  color: var(--orange);
+}
 .prose table {
   width: 100%;
   margin: 0 0 0.9rem;
@@ -404,6 +408,38 @@ html, body { overflow-anchor: none; }
   text-transform: uppercase;
   color: var(--muted);
 }
+.prose blockquote {
+  margin: 0 0 1.75rem;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--orange);
+  font-style: italic;
+  color: var(--soft);
+}
+.prose blockquote p { margin: 0 0 0.3rem; }
+.prose blockquote cite {
+  display: block;
+  font: normal 0.625rem/1.6 "IBM Plex Mono", monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.prose blockquote cite::before { content: "— "; }
+.prose .sample {
+  margin: 0 0 0.9rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.prose .sample figcaption {
+  margin-bottom: 0.6rem;
+  font: 0.625rem/1.6 "IBM Plex Mono", monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.prose .sample p { margin: 0; white-space: pre-line; }
+.prose .sample .cont { color: var(--orange); }
 .prose .meta {
   font: 0.6875rem/1.6 "IBM Plex Mono", monospace;
   color: var(--muted);
