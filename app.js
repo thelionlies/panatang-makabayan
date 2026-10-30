@@ -277,11 +277,12 @@ sa bansang Pilipinas.`;
   const FADE_MS = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 350;
   let leaving = false;
   let beats = []; // the timed cut and finish of the current selection
+  let fadeTimer = null;
   function goTo(n) {
     if (leaving) return;
     leaving = true;
     document.getElementById("page-home").classList.add("leaving");
-    setTimeout(() => {
+    fadeTimer = setTimeout(() => {
       leaving = false;
       document.getElementById("page-home").classList.remove("leaving");
       if (n < SELECTIONS.length) showStep(n);
@@ -290,6 +291,9 @@ sa bansang Pilipinas.`;
   }
 
   function showStep(n) {
+    clearTimeout(fadeTimer);
+    leaving = false;
+    document.getElementById("page-home").classList.remove("leaving");
     step = n;
     tourIntro.hidden = step >= 0;
     tourStage.hidden = step < 0;
@@ -329,6 +333,12 @@ sa bansang Pilipinas.`;
     scrollTo(0, 0);
   }
   addEventListener("hashchange", showTab);
+  // The logo always restarts from the title, even when the landing page is already showing.
+  document.querySelector(".brand").addEventListener("click", (e) => {
+    e.preventDefault();
+    if (location.hash === "#home") showTab();
+    else location.hash = "home";
+  });
   showTab();
 
   // ---- Light / dark toggle; with no saved choice the system setting applies ----
